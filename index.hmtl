@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monty Hall Simulation</title>
+</head>
+<body>
+    <h1>Monty Hall Simulation</h1>
+    <div id="result"></div>
+
+    <script>
+        const simulations = 10000;
+        let stayWins = 0;
+        let switchWins = 0;
+
+        for (let i = 0; i < simulations; i++) {
+            const winningDoor = Math.ceil(Math.random() * 3);
+            const initialChoice = Math.ceil(Math.random() * 3);
+
+            let revealedDoor;
+            do {
+                revealedDoor = Math.ceil(Math.random() * 3);
+            } while (revealedDoor === initialChoice || revealedDoor === winningDoor);
+
+            let switchChoice;
+            for (let j = 1; j <= 3; j++) {
+                if (j !== initialChoice && j !== revealedDoor) {
+                    switchChoice = j;
+                    break;
+                }
+            }
+
+            if (initialChoice === winningDoor) {
+                stayWins++;
+            } else if (switchChoice === winningDoor) {
+                switchWins++;
+            }
+        }
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+            <p>Simulations: ${simulations}</p>
+            <p>Stay Wins: ${stayWins} (${((stayWins / simulations) * 100).toFixed(2)}%)</p>
+            <p>Switch Wins: ${switchWins} (${((switchWins / simulations) * 100).toFixed(2)}%)</p>
+        `;
+    </script>
+</body>
+</html>
